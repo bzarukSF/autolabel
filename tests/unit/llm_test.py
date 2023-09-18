@@ -3,6 +3,7 @@ from autolabel.models.anthropic import AnthropicLLM
 from autolabel.models.openai import OpenAILLM
 from autolabel.models.palm import PaLMLLM
 from autolabel.models.refuel import RefuelLLM
+from autolabel.models.llm_gw_openai import LLMGatewayOpenAI
 from langchain.schema import Generation, LLMResult
 from pytest import approx
 
@@ -246,3 +247,43 @@ def test_refuel_return_probs():
 
 
 ################### REFUEL TESTS #######################
+
+################### LLM GATEWAY OPENAI GPT 3.5 TESTS #######################
+def test_llm_gw_gpt35_initialization():
+    model = LLMGatewayOpenAI(
+        config=AutolabelConfig(config="tests/assets/banking/config_banking.json")
+    )
+
+
+def test_llm_gw_gpt35_label(mocker):
+    model = LLMGatewayOpenAI(
+        config=AutolabelConfig(config="tests/assets/banking/config_banking.json")
+    )
+    prompts = ["test1", "test2"]
+    mocker.patch(
+        "langchain_einsteingpt.EinsteinGPTLLM.generate",
+        return_value=LLMResult(
+            generations=[[Generation(text="Answers")] for _ in prompts]
+        ),
+    )
+    x = model.label(prompts)
+    assert [i[0].text for i in x.generations] == ["Answers", "Answers"]
+
+
+def test_llm_gw_gpt35_get_cost():
+    model = LLMGatewayOpenAI(
+        config=AutolabelConfig(config="tests/assets/banking/config_banking.json")
+    )
+    example_prompt = "TestingExamplePrompt"
+    curr_cost = model.get_cost(example_prompt)
+    assert curr_cost == approx(0.002006, rel=1e-3)
+
+
+def test_llm_gw_gpt35_return_probs():
+    model = LLMGatewayOpenAI(
+        config=AutolabelConfig(config="tests/assets/banking/config_banking.json")
+    )
+    assert model.returns_token_probs() is False
+
+
+################### LLM GATEWAY OPENAI GPT 3.5 TESTS #######################

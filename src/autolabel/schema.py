@@ -14,6 +14,7 @@ from autolabel.utils import calculate_md5
 class ModelProvider(str, Enum):
     """Enum containing all LLM providers currently supported by autolabeler"""
 
+    LLMGatewayOpenAI = "llm_gateway_openai"
     OPENAI = "openai"
     ANTHROPIC = "anthropic"
     HUGGINGFACE_PIPELINE = "huggingface_pipeline"

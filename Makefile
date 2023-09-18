@@ -35,7 +35,7 @@ clean-build:
 clean: clean-pyc clean-test clean-build
 
 test: clean
-	OPENAI_API_KEY=test_key ANTHROPIC_API_KEY=test_key REFUEL_API_KEY=test_key pytest
+	OPENAI_API_KEY=test_key ANTHROPIC_API_KEY=test_key REFUEL_API_KEY=test_key LLM_API_KEY=test_key FALCON_INSTANCE=test_fi SSL_CA_CERT=test_cert pytest
 
 check: test
 

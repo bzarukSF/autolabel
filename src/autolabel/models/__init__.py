@@ -6,6 +6,7 @@ from autolabel.cache import BaseCache
 
 logger = logging.getLogger(__name__)
 
+from autolabel.models.llm_gw_openai import LLMGatewayOpenAI
 from autolabel.models.openai import OpenAILLM
 from autolabel.models.anthropic import AnthropicLLM
 from autolabel.models.cohere import CohereLLM
@@ -14,6 +15,7 @@ from autolabel.models.hf_pipeline import HFPipelineLLM
 from autolabel.models.refuel import RefuelLLM
 
 MODEL_REGISTRY = {
+    ModelProvider.LLMGatewayOpenAI: LLMGatewayOpenAI,
     ModelProvider.OPENAI: OpenAILLM,
     ModelProvider.ANTHROPIC: AnthropicLLM,
     ModelProvider.COHERE: CohereLLM,
